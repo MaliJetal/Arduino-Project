@@ -1,0 +1,169 @@
+#include <lm35.h> // include the library header
+#include<LiquidCrystal.h>
+lm35 temps(0); /* create sensor object
+(pin number should correpond to the 
+analog pin the sensor is connected to) */
+LiquidCrystal lcd(12,11,5,4,3,2);
+int fanLCD;
+float temp;
+
+int tempPin = A0; //arduino pin used for temperature sensor
+
+int tempMin = 15; // the temperature to start the buzzer
+
+int tempMax = 70;
+
+int fan = 6; // the pin where fan is connected
+
+int fanSpeed=0;
+int enablePin = 10;
+
+int in1Pin = 7;
+
+int in2Pin = 8;
+int x,y;
+
+int speed;
+void setup()
+
+{
+   Serial.begin(9600); // setup serial communication
+  pinMode(fan, OUTPUT);
+ // pinMode(led, OUTPUT);
+  pinMode(tempPin, INPUT);
+  lcd.begin(16,2);
+
+pinMode(in1Pin, OUTPUT);
+
+pinMode(in2Pin, OUTPUT);
+
+pinMode(enablePin, OUTPUT);
+
+}
+
+void loop()
+
+{
+  
+  temps.MeasureTemp(); // start measuring temperature
+  Serial.print(temps.TempInCelcius); // print temperature
+  Serial.println("C");
+  temp=temps.TempInCelcius;
+  Serial.print(temps.TempInFahrenheit); // print temp in Fahrenheit
+  Serial.println("F");
+  delay(500);
+ 
+  if(temp < tempMin) {
+    lcd.clear();
+analogWrite(enablePin,0);
+digitalWrite(in1Pin,HIGH);
+digitalWrite(in2Pin,LOW);
+lcd.print("TEMP:");
+lcd.print(temp);
+lcd.setCursor(0,1);
+lcd.print("Fan speed:0%");
+delay(1000);
+}
+ 
+  if (temp>15 && temp<20)
+  {
+    analogWrite(enablePin,80);
+digitalWrite(in1Pin,HIGH);
+digitalWrite(in2Pin,LOW);
+lcd.clear();
+lcd.print("TEMP:");
+lcd.print(temp);
+lcd.setCursor(0,1);
+lcd.print("fan speed:30%");
+delay(10000);
+    }
+    
+  if (temp>=20 && temp<22)
+  {
+    analogWrite(enablePin,100);
+digitalWrite(in1Pin,HIGH);
+digitalWrite(in2Pin,LOW);
+lcd.clear();
+lcd.print("TEMP:");
+lcd.print(temp);
+lcd.setCursor(0,1);
+lcd.print("fan speed:40%");
+delay(10000);
+    }
+    if (temp>=22 && temp<24)
+  {
+    analogWrite(enablePin,150);
+digitalWrite(in1Pin,HIGH);
+digitalWrite(in2Pin,LOW);
+lcd.clear();
+lcd.print("TEMP:");
+lcd.print(temp);
+lcd.setCursor(0,1);
+lcd.print("fan speed:60%");
+delay(10000);
+    }
+    if(temp>=24 && temp<26)
+    {
+analogWrite(enablePin,175);
+digitalWrite(in1Pin,HIGH);
+digitalWrite(in2Pin,LOW);
+lcd.clear();
+lcd.print("TEMP:");
+lcd.print(temp);
+lcd.setCursor(0,1);
+lcd.print("fan speed:70%");
+delay(10000);
+      }
+    if(temp>=26 && temp<28)
+    {
+analogWrite(enablePin,200);
+digitalWrite(in1Pin,HIGH);
+digitalWrite(in2Pin,LOW);
+lcd.clear();
+lcd.print("TEMP:");
+lcd.print(temp);
+lcd.setCursor(0,1);
+lcd.print("fan speed:80%");
+delay(10000);
+      }
+      if(temp>=28 && temp<33)
+    {
+analogWrite(enablePin,230);
+digitalWrite(in1Pin,HIGH);
+digitalWrite(in2Pin,LOW);
+lcd.clear();
+lcd.print("TEMP:");
+lcd.print(temp);
+lcd.setCursor(0,1);
+lcd.print("fan speed:90%");
+delay(10000);
+      }
+     
+if(temp>=33)
+    {
+analogWrite(enablePin,255);
+digitalWrite(in1Pin,HIGH);
+digitalWrite(in2Pin,LOW);
+lcd.clear();
+lcd.print("TEMP:");
+lcd.print(temp);
+lcd.setCursor(0,1);
+lcd.print("fan speed:100%");
+delay(10000);
+      }   
+}
+
+
+
+
+
+//digitalWrite(13,HIGH);
+
+//if(x==255)
+  //x=0;
+
+//speed = x;
+
+//setMotor(speed);
+//x++;
+
